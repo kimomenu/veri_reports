@@ -115,7 +115,7 @@ for target in list_dates:
     
     #noms eixos
     plt.xlabel("Hora")
-    plt.ylabel("Glucosa mg/dL")
+    plt.ylabel("Glucose mg/dL")
     
     #titol
     plt.title(label=target, fontsize=25,color="blue")
