@@ -97,36 +97,36 @@ print(stats)
 ### Plotter creator
 
 
-# crea list of figures
+# create list of figures
 figures_list=pd.DataFrame()
 
 
 for target in list_dates:
     
-    #declaracio grafic
+    #declaration plot
     fig, ax = plt.subplots(figsize=(12, 6))
     x=filtered.query(f"date_only == '{target}' "  )['hour']
     y=filtered.query(f"date_only == '{target}' "  )['glucose_value']
     ax.plot(x,y);
     
-    #linies horitzontals
+    #horitzontal lines
     ax.xaxis.set_major_locator(ticker.MultipleLocator(8))
     plt.grid(True)
     
-    #noms eixos
+    #ax names
     plt.xlabel("Hora")
     plt.ylabel("Glucose mg/dL")
     
-    #titol
+    #title
     plt.title(label=target, fontsize=25,color="blue")
     #min max vertical
     plt.ylim(50, 200)
     
-    #limits glucosa
+    #band limits glucose
     plt.axhline(y=140,linewidth=2, color='#d62728')
     plt.axhline(y=70, linewidth=2, color='#d62728')
     
-    #informacio estadistica
+    #day statistics 
     textstr= '\n'.join((
     r'Average %.2f mg/dL' % (stats.at[target,'mean'], ),
     r'Min %.2f mg/dL' % (stats.at[target,'min'], ),
@@ -138,7 +138,7 @@ for target in list_dates:
     ax.text(0.8, 0.2, textstr, transform=ax.transAxes, fontsize=12,
         verticalalignment='top', bbox=props)
     
-    #area vermella sobre excessos 140
+    #red are over excesses 140
     threshold=140
     ax.fill_between(x, 0, 1, where=y > threshold,
                 color='red', alpha=0.25, transform=ax.get_xaxis_transform())
@@ -148,7 +148,7 @@ for target in list_dates:
     plt.show()
     plt.close()
     
-    #guarda nom arxiu per a powerpoint
+    #store plot to file
     figures_list.at[target,'image']=f"plot {target}.png"
 
 
