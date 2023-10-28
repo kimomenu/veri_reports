@@ -5,4 +5,5 @@ I had sensors from Veristable in 2022 and exported the glucose readings data in 
 This script allows you to create slides for each day of glucose readings, the glucose min/max values are adjustable.
 
 
+See example plot below
 ![Screenshot of plot obtained with this file](/plot_example.png)
