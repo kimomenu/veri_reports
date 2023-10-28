@@ -1,15 +1,21 @@
-import pandas as pd
+
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
+import pandas as pd
+from datetime import datetime
+from odpslides.presentation import Presentation
+
 
 # import data
-dades=pd.DataFrame()
-dades=pd.read_csv('veri_data_export-jc.csv')
+data=pd.DataFrame()
+data=pd.read_csv('veri_data_export-jc.csv')
 
 
 
 
 # select data only about glucose
-filtered=dades[['base_time_string','base_type','glucose_value']].loc[dades['base_type']=='glucose']
+filtered=data[['base_time_string','base_type','glucose_value']].loc[data['base_type']=='glucose']
 
 
 # create list of dates
@@ -43,8 +49,8 @@ print('\n')
 
 filtered=filtered.reset_index()
 
-# contador minuts over 140
-limit=140 #mg/dl glucosa
+# count minuts over 140
+limit=140 #mg/dl glucose
 itercount=0
 event=0
 
@@ -56,7 +62,7 @@ for pos in filtered.index:
     #add interval of 15 mins over limit
     if val>limit:
         print(f"Glucose value {filtered.at[pos,'glucose_value']} at {filtered.at[pos,'base_time_string']} ")
-        #print(dades.iloc[val])
+        #print(data.iloc[val])
         itercount=itercount+1
         event=event+1
     else:
@@ -90,12 +96,8 @@ print(stats)
 
 ### Plotter creator
 
-import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
-import pandas as pd
-from datetime import datetime
 
-# crea llista figures
+# crea list of figures
 figures_list=pd.DataFrame()
 
 
@@ -126,10 +128,10 @@ for target in list_dates:
     
     #informacio estadistica
     textstr= '\n'.join((
-    r'Mitjana %.2f mg/dL' % (stats.at[target,'mean'], ),
+    r'Average %.2f mg/dL' % (stats.at[target,'mean'], ),
     r'Min %.2f mg/dL' % (stats.at[target,'min'], ),
     r'Max %.2f mg/dL' % (stats.at[target,'max'], ),
-    r'Desviacio %.2f' % (stats.at[target,'std_dev'], ),
+    r'Std dev %.2f' % (stats.at[target,'std_dev'], ),
     str(stats.at[target,f"mins glucose> {limit}"  ])  ))
 
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
@@ -153,7 +155,7 @@ for target in list_dates:
 
 #### Powerpoint export module
 
-from odpslides.presentation import Presentation
+
 
 P = Presentation(title_font_color='blue', subtitle_font_color='black',
                  footer='Glucose Reports', show_date=True,
@@ -161,10 +163,10 @@ P = Presentation(title_font_color='blue', subtitle_font_color='black',
                  footer_font_color='i',
                  page_number_font_color="i")
 
-P.add_title_chart( title='DGlucose Reports', subtitle='Month Year')
+P.add_title_chart( title='Glucose Reports', subtitle='Month Year')
 
 for date in figures_list.index:
-    P.add_titled_image( title='Yearly data',
+    P.add_titled_image( title='Daily data',
                         image_file=f"figures/{figures_list.at[date,'image']}",
                         pcent_stretch_center=95, pcent_stretch_content=95)
 
