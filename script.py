@@ -9,7 +9,7 @@ from odpslides.presentation import Presentation
 
 # import data
 data=pd.DataFrame()
-data=pd.read_csv('veri_data_export-jc.csv')
+data=pd.read_csv('veri_data_export.csv')
 
 
 
